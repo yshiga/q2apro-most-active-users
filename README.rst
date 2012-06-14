@@ -1,6 +1,6 @@
 ====================================
 Question2Answer Most Active Users Widget (per time interval) v1.1
-
+====================================
 -----------
 Description
 -----------
@@ -21,7 +21,7 @@ Installation
 #. navigate to your site, go to **Admin -> Plugins** on your q2a install.
 #. Set up the event logger plugin to ``Log events to qa_eventlog database table``.
 #. Then, go to Admin >Layout >Available widgets, and add the widget "Most active users per week/month" where you want it to appear
-#. Change settings (week, month, and language) in file qa-most-active-users.php
+#. Change settings (week, month and languagae) in file qa-most-active-users.php
 
 .. _Question2Answer: http://www.question2answer.org/install.php
 .. _github:
