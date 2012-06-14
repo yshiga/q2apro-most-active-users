@@ -3,7 +3,7 @@
 	Plugin Name: Most active users (per time interval)
 	Plugin URI: https://www.github.com/echteinfachtv/q2a-most-active-users/
 	Plugin Description: Displays the most active users of the current week or month in a widget
-	Plugin Version: 1.0
+	Plugin Version: 1.1
 	Plugin Date: 2012-06-10
 	Plugin Author: echteinfachtv
 	Plugin Author URI: http://www.echteinfach.tv/

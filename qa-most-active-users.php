@@ -48,32 +48,27 @@ class qa_most_active_users {
 
 	function output_widget($region, $place, $themeobject, $template, $request, $qa_content)
 	{
-		/* settings */
-		$doWeek = false;  // here you can switch the interval: false - current month and true - current week
-		$maxusers = 5; // max users to display 
-		$adminName = "echteinfachtv";  // if you want to ignore the admin, define his name here: 
-		$localcode = 'de_DE'; // displays the month name in your defined language, e.g. en_US
+		/* Settings */
+		$doWeek = false;  				// here you can switch the interval: false - current month and true - current week
+		$maxusers = 5; 					// max users to display 
+		$adminName = "echteinfachtv";	// if you want to ignore the admin, define his name here 
+		$localcode = "de_DE"; 			// displays the month name in your defined language, e.g. en_US
+		$langActUsers = "Aktivste Mitglieder";	// your language string for 'most active users'
+		$langThisWeek = "diese Woche";			// your language string for 'this week'
 		
 		/* 	CSS: you can style the most active user box by css: #mostactiveusers
-			for instance, for my template I used (add these lines to qa-styles.css): 
+			define height and width of images in: #mostactiveusers img
+			
+			For instance, for my template I used the following (add these lines to qa-styles.css): 
 			#mostactiveusers { padding-top:30px; }
-			#mostactiveusers img { border:1px solid #CCCCCC; vertical-align:middle; margin-bottom:5px; }
+			#mostactiveusers img { width:30px; height:30px; border:1px solid #CCCCCC; vertical-align:middle; margin-bottom:5px; }
 			#mostactiveusers ol { margin:0; padding-left:20px; }
 		*/
 
 		
-		// get current month from today
-		$month = date('n');
-
-		// get week range from current date, week starts sunday
-		$ts = strtotime( date('Y-m-d') ); 
-		$start = (date('w', $ts) == 0) ? $ts : strtotime('last sunday', $ts);
-		$weekstart = date('Y-m-d', $start);
-		$weekend = date('Y-m-d', strtotime('next saturday', $start));
-
-		/*  Events that should be regarded for activity points: badge_awarded, q_post, a_post, c_post, in_a_question, in_c_question, in_c_answer, q_vote_up, in_q_vote_up, in_a_vote_up.
-			Problem: in event_log e.g. "in_q_vote_up" registers the user who RECEIVED the vote, but not the one how voted!
-			So we can only take the basic events that originate from the user:  q_post, a_post, c_post
+		/*  Events that should be regarded for activity points were: badge_awarded, q_post, a_post, c_post, in_a_question, in_c_question, in_c_answer, q_vote_up, in_q_vote_up, in_a_vote_up.
+			Problem: in event_log e.g. "in_q_vote_up" registers the user who RECEIVED the vote, not the one how voted!
+			So we can only take the basic events that originate from the user: q_post, a_post, c_post
 		*/
 		$activityEvents = array("q_post", "a_post", "c_post");
 		$users = array();
@@ -82,10 +77,22 @@ class qa_most_active_users {
 		
 		// week or month query, 'handle' holds each username, ignore anonym users with handle = NULL
 		if($doWeek) {
-			$events = qa_db_query_sub("SELECT handle,event from `^eventlog` WHERE `datetime` BETWEEN $ AND $ AND `handle`!='NULL'", $weekstart, $weekend);	
+			// get week range from current date, week starts sunday
+			$ts = strtotime( date('Y-m-d') ); 
+			$start = (date('w', $ts) == 0) ? $ts : strtotime('last sunday', $ts);
+			$weekstart = date('Y-m-d', $start);
+			$weekend = date('Y-m-d', strtotime('next saturday', $start));
+
+			$events = qa_db_query_sub("SELECT handle,event from `^eventlog` 
+										WHERE `datetime` 
+										BETWEEN $ AND $ 
+										AND `handle`!='NULL'", $weekstart, $weekend);	
 		}
 		else {
-			$events = qa_db_query_sub("SELECT handle,event from `^eventlog` WHERE MONTH(`datetime`) = $ AND `handle`!='NULL'", $month);	
+			$events = qa_db_query_sub("SELECT handle,event from `^eventlog` 
+										WHERE YEAR(`datetime`) = YEAR(CURDATE())
+										AND MONTH(`datetime`) = MONTH(CURDATE())
+										AND `handle`!='NULL'");	
 		}
 
 		while ( ($event=qa_db_read_one_assoc($events,true)) !== null ) {
@@ -125,13 +132,13 @@ class qa_most_active_users {
 		
 		$themeobject->output('<div id="mostactiveusers">');
 		if($doWeek) {
-			$themeobject->output('<div class="qa-nav-cat-list qa-nav-cat-link">Aktivste Nutzer<br />diese Woche:</div>'); // todo: qa_lang_html('misc/most_active_users')
+			$themeobject->output('<div class="qa-nav-cat-list qa-nav-cat-link">'.$langActUsers.'<br />'.$langThisWeek.':</div>'); // todo: qa_lang_html('misc/most_active_users')
 		}
 		else {
 			// get month name
 			setlocale (LC_TIME, $localcode); 
 			$monthName = strftime("%B %G", strtotime( date('F')) );
-			$themeobject->output('<div class="qa-nav-cat-list qa-nav-cat-link">Aktivste Nutzer<br />('.$monthName.'):</div>'); 
+			$themeobject->output('<div class="qa-nav-cat-list qa-nav-cat-link">'.$langActUsers.'<br />('.$monthName.'):</div>'); 
 		}
 		$themeobject->output( $topusers );
 		$themeobject->output('</div>');
