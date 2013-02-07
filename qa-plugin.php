@@ -3,8 +3,8 @@
 	Plugin Name: Most active users (per time interval)
 	Plugin URI: https://www.github.com/echteinfachtv/q2a-most-active-users/
 	Plugin Description: Displays the most active users of the current week or month in a widget
-	Plugin Version: 1.1
-	Plugin Date: 2012-06-10
+	Plugin Version: 1.2
+	Plugin Date: 2013-02-07
 	Plugin Author: echteinfachtv
 	Plugin Author URI: http://www.echteinfach.tv/
 	Plugin License: GPLv3
@@ -25,13 +25,17 @@
 	
 */
 
-if ( !defined('QA_VERSION') )
-{
-	header('Location: ../../');
-	exit;
-}
-
-qa_register_plugin_module('widget', 'qa-most-active-users.php', 'qa_most_active_users', 'Most active users per week/month');
+	if ( !defined('QA_VERSION') )
+	{
+		header('Location: ../../');
+		exit;
+	}
+	
+	// language file
+	qa_register_plugin_phrases('qa-most-active-users-lang.php', 'qa_most_active_users_lang');
+	
+	// widget
+	qa_register_plugin_module('widget', 'qa-most-active-users.php', 'qa_most_active_users', 'Most active users per week/month');
 	
 
 /*
