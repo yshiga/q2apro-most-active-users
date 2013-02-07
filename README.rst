@@ -1,5 +1,5 @@
 ====================================
-Question2Answer Most Active Users Widget (per time interval) v1.1
+Question2Answer Most Active Users Widget (per time interval) v1.2
 ====================================
 -----------
 Description
