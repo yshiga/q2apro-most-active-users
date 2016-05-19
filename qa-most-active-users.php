@@ -56,7 +56,7 @@ class qa_most_active_users {
 		/* SETTINGS */
 		$doWeek = false;  					// here you can switch the interval: false - current month and true - current week
 		$displayMonthName = false;			// displays the name of the current month in widget headline
-		$maxusers = 5; 						// max users to display
+		$maxusers = 10; 						// max users to display
 		$adminName = "theAdminUsername";	// if you want to ignore the admin, define his name here
 		$avatarSize = qa_opt('avatar_users_size'); // if you want the avatars in another size, define a value here, e.g. 40
 		$showActivityPoints = true; 		// show activity points behind username
