@@ -22,7 +22,7 @@
 	GNU General Public License for more details.
 
 	More about this license: http://www.gnu.org/licenses/gpl.html
-	
+
 */
 
 	if ( !defined('QA_VERSION') )
@@ -30,13 +30,13 @@
 		header('Location: ../../');
 		exit;
 	}
-	
+
 	// language file
-	qa_register_plugin_phrases('qa-most-active-users-lang.php', 'qa_most_active_users_lang');
-	
+	qa_register_plugin_phrases('qa-most-active-users-*.php', 'qa_most_active_users_lang');
+
 	// widget
 	qa_register_plugin_module('widget', 'qa-most-active-users.php', 'qa_most_active_users', 'Most active users per week/month');
-	
+
 
 /*
 	Omit PHP closing tag to help avoid accidental output
